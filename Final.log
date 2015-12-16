@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.11.16)  15 DEC 2015 20:24
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.11.16)  16 DEC 2015 00:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -206,25 +206,34 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 20.
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no Š in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no Š in font cmr10!
+Missing character: There is no † in font cmr10!
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (61.61209pt too wide) in paragraph at lines 53--54
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+Overfull \hbox (61.61209pt too wide) in paragraph at lines 70--71
 []\OT1/cmr/m/n/10.95 As dis-cussed ear-lier, any valid so-lu-tion will split th
 e Graphi $\OML/cmm/m/it/10.95 G\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 V; E\OT1
 /cmr/m/n/10.95 )$ into $\OML/cmm/m/it/10.95 K$ \OT1/cmr/m/n/10.95 graphs($\OML/
 cmm/m/it/10.95 C[]; C[]; []  ; C[]$\OT1/cmr/m/n/10.95 ),
  []
 
-[2] [3] (./Final.aux) ) 
+[3] [4] (./Final.aux) ) 
 Here is how much of TeX's memory you used:
- 1804 strings out of 493304
- 22210 string characters out of 6139870
- 88068 words of memory out of 5000000
- 5273 multiletter control sequences out of 15000+600000
+ 1805 strings out of 493304
+ 22226 string characters out of 6139870
+ 87068 words of memory out of 5000000
+ 5274 multiletter control sequences out of 15000+600000
  10737 words of font info for 41 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 27i,10n,26p,436b,197s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 27i,10n,26p,1875b,197s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10
@@ -235,11 +244,12 @@ ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmsy8.pfb>
-Output written on Final.pdf (3 pages, 126003 bytes).
+ublic/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/symbols/msbm10.pfb>
+Output written on Final.pdf (4 pages, 134994 bytes).
 PDF statistics:
- 58 PDF objects out of 1000 (max. 8388607)
- 41 compressed objects within 1 object stream
+ 65 PDF objects out of 1000 (max. 8388607)
+ 46 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

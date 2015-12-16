@@ -27,6 +27,23 @@
     \item The case k=2 is not the only polynomially solvable instance of the multiway cut problem. Lovdsz and Cherkasskij show that when c(e) = 1 and  G is Eulerian, then the multiwaycut problem is polynomially solvable. 
     \item write about simplex, polytope
 \end{itemize}
+\section{LP1}
+The problem the authors are looking into is a Multiway cut. What is a multiway cut ? Let G = (V, E) be an undirected graph on V = {1, 2, \dots, n} in which each edge uv ∈ E has a non-negative cost c(u, v) = c(v, u), and let T = {1, 2, . . . , k} ⊆ V be a set of terminals. Multiway Cut is the problem of finding a minimum cost set C ⊆ E such that in (V, E \ C), each of the terminals 1, 2, . . . , k is in a different component.
+The LP stated in the paper is 
+\begin{align}
+    \min \quad & \sum\limits_{uv \in E}{c(u, v)d(u, v)}\\
+        \text{such that}\quad & (V,d) \text{ is a semimetric}\\
+        d(t_1, t_2) &= 1 \quad \forall t_1, t_2 \in T, t_1 \neq t_2\\
+        d(u, v) &\in (0,1) \quad \forall u, v \in V
+\end{align}
+To understand how this works, we need to know what a semimetric is. Semimetric is a pair $(V, d)$, where $V$ is a set and $d$ is a function which operator on $V$. $d: V \times V \rightarrow \mathbb{R}$, such that, 
+$\forall u,v \in V$
+\begin{align}
+d(u, v) &= d(v, u) \ge 0 \\
+d(u, u) &= 0\\
+d(u,v) &\le d(u,w) + d(w,v) 
+\end{align}
+Consider the graph in Figure. Let nodes A and E be terminals and we want to find a cut. In the lp, all the $d(u,v)$ where $uv$ is an valid edges is the decision variable and the value of it can be 0 or 1. From equation 3, we can say that $d(A, E) = 1$ and we dont know the other values. But based on equation 7, we can write $d(A, E) \le d(A, B) + d(B, E)$, $d(A, E) \le d(A, C) + d(C, E)$ and $d(A, E) \le d(A, D) + d(B, D)$. These contribute to the additional contraints which are derived from the contraint $(V,d)$ is a semimetric. Now the LP can should assign atleast value 1 to one of the pairs in $(d(A, B), d(B, E))$, $d(A, C),  d(C, E)$ and $d(A, D) + d(B, D)$. Assign the d(u, v) with a value 1 means, selecting the edge for the cut. Since our objective function is to minimize it, the LP will find which edge costs minimum and that will be the optimal solution. The authors want to come up with much more stricter contraints to reduce the number of valid solution. Lets look into the contraint $\sum\limits_{t \in T}{d(u, t)} = k - 1 \quad \forall u \in V$ using the example from the Figure. In this example, the nodes A, B and C are terminals. If we run our LP without the new contraints, there are four valid solutions, which represent the cuts {(AD, DB), (AD, DC), (DB, DC) and (AD, DB, DC)}. In this set of values, (AD, DB, DC) is not a optimal one but still is a valid solution. In a large graph, there could be many such solution, which could increase the number of valid solution. But this one can be removed easily with the new contraint, $\sum\limits_{t \in T}{d(u, t)} = k - 1 \quad \forall u \in V$. The new contraint says, if there is a node u, as long as its not connected to more than one terminal it is fine. So if there are k nodes, then $\sum\limits_{t \in T}{d(u, t)} = k - 1$, which means only $K-1$ cuts are required and not $K$ cuts
 \section{Understanding}
 Isolation Heuristic - 
 In isolation heuristic, if there are K terminals, in each iteration we attach one terminal to the source and all the other terminals to the sink and then run a max-flow and and find the min-cut. Let the edge set after each iteration be $E_i$. Now the lowest K-1 cuts are taken and the union of them gives the multi-way cut. This algorithm gives an approximation of $2(1-\frac{1}{k})$.
