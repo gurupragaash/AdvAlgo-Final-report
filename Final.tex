@@ -48,4 +48,21 @@ Proof:
         \end{align*}
 
 \end{itemize}
+How did the authors comeup with the Linear program which they say is an SLP.
+\begin{itemize}
+    \item As discussed earlier, any valid solution will split the Graphi $G(V,E)$ into $K$ graphs($C_1, C_2,\cdots,C_k$), with each $C_i$ having a terminal $S_i$
+    \item Let $\delta(C_i)$ represent the set of edges which goes out of $C_i$
+    \item Each vertex $v \in V$ is represented as $x_i^j$ and this value is set to 1 if the $i^{th}$ vertex is part of the componenet $C_i$, else its set to 0. Since a vertex can be a part of only one component, we can say that $\sum_{j=1}^{k}{x^j} = 1, \forall x \in V$, 
+    \item We define another notation $z_e^i$ which operates on all the edges in E and is set to 1 if the edge $e$ is in $\delta(C_i)$ else its set to 0
+    \item If $e$ is in the $\delta(C_i)$, then it connect $(u,v)$ where $u \in C_i, v \notin C_i$. Thus we can write $z_e^i$ as $z_e^i = x_u^i - x_v^i$, since $x_u^i$ will be 1 and $x_v^i$ will be 0, as per the definition of $x$. If $e$ is not in the $\delta(C_i)$, then both u and v belong to a same component, then both $x_u^i$ and $x_v^i$ will be 1 if both belong to component $C_i$ else both will be 0.
+    \item Now for the objective function is $\frac{1}{2}\sum\limits_{e \in E}{c_e * \sum\limits_{i=1}^{k}{z_e^i}}$, where $c_e$ is the cost/weight of the edge. We are multiplying it with $\frac{1}{2}$ because of the double counting which we discussed in the previous explanation.
+    \item Thus the LP is 
+        \begin{align*}
+            \min \quad & \frac{1}{2}\sum\limits_{e \in E}{c_e * \sum\limits_{i=1}^{k}{z_e^i}}\\
+            \text{such that}  \quad z_e^i &= |x_u^i - x_v^i|, \quad \forall e \in E\\
+            \sum\limits_{i=1}^{k}{x_v^i} &= 1,\quad \forall v \in V\\
+            x_{s_i}^i &= 1,\quad \forall s_i \in T\text{(Set of Terminals)}\\
+            x_v^j &\ge 0, \quad \forall v \in V\quad (\text{Got by adding LP relaxation to }x_v^j \in (0,1),\quad \forall v \in V)\\
+        \end{align*}
+\end{itemize}
 \end{document}
