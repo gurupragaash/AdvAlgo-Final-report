@@ -1,0 +1,51 @@
+\documentclass[11pt]{article}
+
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+%\usepackage[utf8]{inputenc}
+\usepackage{url}
+\newcommand{\reals}{{\mathbb R}}
+
+\title{An Improved Approximation Algorithm for Multiway Cut\\Gruia Calinescu Howard Karloﬀ Yuval Rabani\\Interim report for CS 6150}
+\author{Gurupragaash Annasamy Mani \and Praveen Thiraviya Rathinam}
+
+
+\begin{document}
+\maketitle
+
+\section{TODO}
+\begin{itemize}
+    \item What is Multiway cut
+    \item Why is multiway cut MAXSNP hard ?
+    \item what is MAXSNP/SNP ?
+    \item Related work - Dalhaus - the below one . check if we should add some more ?
+    \item Ford fulkerson for max flow ????
+    \item Chopra and Rao [6] and Cunningham [7] develop a polyhedral approach to Multiway Cut ?
+    \item Bertisimas non-linear formulation
+    \item The case k=2 is not the only polynomially solvable instance of the multiway cut problem. Lovdsz and Cherkasskij show that when c(e) = 1 and  G is Eulerian, then the multiwaycut problem is polynomially solvable. 
+    \item write about simplex, polytope
+\end{itemize}
+\section{Understanding}
+Isolation Heuristic - 
+In isolation heuristic, if there are K terminals, in each iteration we attach one terminal to the source and all the other terminals to the sink and then run a max-flow and and find the min-cut. Let the edge set after each iteration be $E_i$. Now the lowest K-1 cuts are taken and the union of them gives the multi-way cut. This algorithm gives an approximation of $2(1-\frac{1}{k})$.
+Proof:
+\begin{itemize}
+    \item Run the isolation heuristic and get the set of edges. Let them be A.
+    \item Lets say $E^*$ is the optimal edge set for the multiway cut with K terminals. Then it means if $E^*$ is removed then there will be $K$ disjoint connected graphs($V_1, V_2,\cdots,V_k$), each having one terminal respectively
+    \item Lets say $E^* = \sum{i=1}^{k}{E_i^*}$ and each $E_i^*$ represents the edges removed to disconnect $V_i$ from the rest.
+    \item Lets say $\delta(V_i)$ gives the set of all outgoing edges from $V_i$.
+    \item Now we can say that, $w(E_i) \le w(\delta(V_i))$ because, both of isolates the terminal $i$ from the rest and we know $E_i$ is the mincut. So $w(E_i)$ cannot be greater than $w(\delta(V_i))$
+    \item Lets says there is $m$ edges between $V_i$ and $V_{i+1}$. Then both $\delta(V_i)$ and $\delta(V_{i+1})$ will include those $m$ edges.
+    \item $2w(E^*) = \sum_{i=1}{k}{\delta(V_i)} $. Its 2 times since each edges is double counted. 
+    \item We know $w(A) \le (1 -\frac{1}{k})(\sum_{i=1}(E_i^*))$. This is because, A is the union of first K-1 smallest set. In this expression, we are adding up all the $K$ values. Since only $k-1$ values are taken, we are multiplying it with $1 - \frac{1}{k}$ and since it the union of all these set, it will be equal to or less than the summation of indiviual sets.
+        \begin{align*}
+            w(A) &\le (1 -\frac{1}{k})(\sum_{i=1}(E_i^*)) \\
+            &\le (1 -\frac{1}{k})(\sum_{i=1}{\delta(V_i)}\\
+            &\le 2(1 -\frac{1}{k})w(E^*)\\
+            &\le 2(1 -\frac{1}{k}) OPT
+        \end{align*}
+
+\end{itemize}
+\end{document}
