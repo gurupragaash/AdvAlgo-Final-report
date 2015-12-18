@@ -1,10 +1,7 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: Final.aux
 The style file: acm.bst
 Database file #1: biblio.bib
-I was expecting a `,' or a `}'---line 86 of file biblio.bib
- :     
- :     year = {1991}
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
+Warning--to sort, need author or key in mit_content
+Warning--to sort, need author or key in illinois_content
 Warning--empty year in Bertsimas
-(There was 1 error message)
+(There were 3 warnings)

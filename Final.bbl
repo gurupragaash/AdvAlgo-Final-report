@@ -1,5 +1,14 @@
 \begin{thebibliography}{1}
 
+\bibitem{mit_content}
+{Multiway Cut}.
+\newblock \url{http://math.mit.edu/~goemans/18434S06/multiway-adam.pdf}.
+
+\bibitem{illinois_content}
+{Multiway Cut and k-way Cut}.
+\newblock
+  \url{https://courses.engr.illinois.edu/cs598csc/sp2009/lectures/lecture_7.pdf}.
+
 \bibitem{Bertsimas}
 {\sc Bertsimas, D., Teo, C., and Vohra, R.~V.}
 \newblock {Nonlinear formulations and improved randomized approximation
@@ -19,7 +28,7 @@
 
 \bibitem{cunningham}
 {\sc Cunningham, W.}
-\newblock The optimal multiterminal cut problem.
+\newblock The optimal multiterminal cut problem, 1991.
 
 \bibitem{Dahlhaus_Alon}
 {\sc Dahlhaus, E., Johnson, D.~S., Papadimitriou, C.~H., Seymour, P.~D., and
