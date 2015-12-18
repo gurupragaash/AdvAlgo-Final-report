@@ -23,7 +23,7 @@
 
 \section{Multiway Cut}
 
-Consider an undirected graph G = (V, E) with vertices V = $\{1, 2, $\dots$, n\}$ and edges E with weights w: E $\rightarrow R^{+}$. Let T = $\{1, 2, . . . , k\} \subseteq$ V be a set of terminals. Multiway Cut is the problem of finding a minimum cost cut C $\subseteq$ E such that no connected component of G(V, E - C) contains two terminals from T. In case of just two terminals, minimum multiway cut is just a min s-t cut problem and hence can be solved in polynomial time by running a maximum flow algorithm from one terminal to the other. But when the number of terminals becomes $\ge 3$, then the problem of computing the minimum weight multiway cut is NP-hard and max SNP-hard even for fixed $k \ge 3$ by Dahlhaus, Johnson, Papadimitriou, Seymour and Yannakakis. In other words, there is a constant $\delta >$ 1 such that it is NP-Hard to even approximate the solution to within a ratio of less than $\delta$. Unless P = NP, there is no polynomial-time approximation scheme for Multiway Cut.
+Consider an undirected graph G = (V, E) with vertices V = $\{1, 2, $\dots$, n\}$ and edges E with weights w: E $\rightarrow R^{+}$. Let T = $\{1, 2, . . . , k\} \subseteq$ V be a set of terminals. Multiway Cut is the problem of finding a minimum cost cut C $\subseteq$ E such that no connected component of G(V, E - C) contains two terminals from T. In case of just two terminals, minimum multiway cut is just a min s-t cut problem and hence can be solved in polynomial time by running a maximum flow algorithm from one terminal to the other. But when the number of terminals becomes $\ge 3$, then the problem of computing the minimum weight multiway cut is NP-hard and max SNP-hard as stated by by Dahlhaus et al.~\cite{dahlhaus}. In other words, there is a constant $\delta >$ 1 such that it is NP-Hard to even approximate the solution to within a ratio of less than $\delta$. Unless P = NP, there is no polynomial-time approximation scheme for Multiway Cut.
 \paragraph{APX-Hard/SNP-Hard}
 APX(Approximable) class is a set of NP optimization problems in which algorithms can be used to find an answer within some fixed multiplicative factor of the optimal answer. APX class is also known as MAX-SNP. A problem is said to be SNP-hard if it does not have a Polynomial Time Approximation Scheme(PTAS).
  
@@ -31,18 +31,19 @@ APX(Approximable) class is a set of NP optimization problems in which algorithms
 \subsection{Isolation Heuristic}
 
 Dahlhaus et al.\cite{Dahlhaus} initiated the study of multiway cut problems. They proposed a simple combinatorial isolation heuristic to approximate the solution to these kinds of problems.In isolation heuristic, given a undirected weighted graph G = (V,E) and K terminals, in each iteration we attach one terminal to the source and all the other terminals to the sink and then run a max-flow algorithm and find the min-cut for each turn. Let the edge set after each iteration be $E_i$. Now the lowest k-1 cuts are taken and the union of them gives the multi-way cut. This algorithm gives an approximation of $2(1-\frac{1}{k})$.\\\\
+\newpage
 \textbf{Proof:}
 \begin{itemize}
     \item Run the isolation heuristic scheme and get the set of edges. Let they be A.
     \item Let $E^*$ be the optimal edge set for the multiway cut with K terminals. Then it means if $E^*$ is removed then there will be $K$ disjoint connected graphs ($V_1, V_2,\cdots,V_k$), each having one terminal respectively.
-    \item $E^* = \sum_{i=1}^{k}{E_i^*}$ and each $E_i^*$ represents the edges removed to disconnect $V_i$ from rest.
+    \item $E^* = \sum\limits_{i=1}^{k}{E_i^*}$ and each $E_i^*$ represents the edges removed to disconnect $V_i$ from rest.
     \item Let $\delta(V_i)$ denote the set of all outgoing edges from $V_i$.
     \item Now we can say that, $w(E_i) \le w(\delta(V_i))$ because both isolate the terminal $i$ from the rest and we know $E_i$ is the mincut. So $w(E_i)$ cannot be greater than $w(\delta(V_i))$
-    \item $2w(E^*) = \sum_{i=1}^{k}{\delta(V_i)} $. It is 2 times since each edge is double counted in the process(If there is a edge between $i$ and $j$, then both $\delta(V_i)$ and $\delta(V_{i+1})$ will include that edges).
-    \item We know $w(A) \le (1 -\frac{1}{k})(\sum_{i=1}^k w(E_i^*))$. This is because, A is union of first K-1 smallest set. In this expression, we are adding up all the $K$ values. Since only $k-1$ values are taken, we are multiplying it with $1 - \frac{1}{k}$ and since it the union of all these set, it will be equal to or less than the summation of indiviual sets.
+    \item $2w(E^*) = \sum\limits_{i=1}^{k}{\delta(V_i)} $. It is 2 times since each edge is double counted in the process(If there is a edge between $i$ and $j$, then both $\delta(V_i)$ and $\delta(V_j)$ will include that edges).
+    \item We know $w(A) \le (1 -\frac{1}{k})(\sum\limits_{i=1}^k w(E_i^*))$. This is because, A is union of first K-1 smallest set. In this expression, we are adding up all the $K$ values. Since only $k-1$ values are taken, we are multiplying it with $1 - \frac{1}{k}$ and since it the union of all these set, it will be equal to or less than the summation of indiviual sets.
         \begin{align*}
-            w(A) &\le (1 -\frac{1}{k})(\sum_{i=1}^k w(E_i^*)) \\
-            &\le (1 -\frac{1}{k})(\sum_{i=1}^k w{\delta(V_i)}\\
+            w(A) &\le (1 -\frac{1}{k})(\sum\limits_{i=1}^k w(E_i^*)) \\
+            &\le (1 -\frac{1}{k})(\sum\limits_{i=1}^k w{\delta(V_i)}\\
             &\le 2(1 -\frac{1}{k})w(E^*)\\
           w(A)  &\le 2(1 -\frac{1}{k}) OPT
         \end{align*}
@@ -73,13 +74,13 @@ Bertsimas et al.\cite{Bertsimas} proposed a non-linear formulation of the multiw
 
 \section{Overview of the solution and the Basic Notations}
 \subsection{Overview}
- Authors use a geometric relaxation of the k-way cut which uses a $(k-1)$ simplex $\bigtriangleup$ which has k vertices and the $i^{th}$ vertex is point x in $\bigtriangleup$ with $x_i$ = 1 and all other coordinates 0. Relaxation is as follows: Map the nodes of the graph to points in the simplex such that the i terminals are mapped to the $i^{th}$ vertex. Each edge is mapped to the line between its end points. The goal here is to minimize the volume of G. The embedding is a relaxation of the minimum k-way cut problem. Once the basic premises are set, the authors find the minimum volume embedding through linear programming. They then propose a randomized rounding scheme to extract the multiway cut which induces a k-way cut in the embedded graph and separates the graph into k isolated components. This cut is supposed to have a cost at most $1.5 - \frac{1}{k}$ times the volume of the embedding. We discuss about the proposed solution in detail in the sections below. 
+The objective to find a minimum muliway cut for a graph G. The authors define Linear Programming relaxation(LP1, LP2). Run the LP with the specified relaxations on the input graph G. The solution to the LP program, maps each node in G to $\bigtriangleup$. Now in the solution, if there are edges in the graph whose node's unit vectors differ by more than 2, do subdivision on that edge. Do this for all the edges as long as the nodes' vectors differ by atmost 2 co-ordinates which results in graph G'. Then run the rounding algorithm and the solution of the rounding algorithm is of the approximation ratio $(1.5 - \frac{1}{k})$ OPT. We will look into the LP, the relaxation, the process of subdivision, how addition of new edges doesn't alter the CUT size, the rounding algorithm and how the approximation ratio is achieved in detail in the following sections.
 
 \subsection{Simplex Solution}
-A simplex is a generalization of the notion of a convex polyhedron to arbitrary dimensions. In our case, we solve the linear programs using the simplex formulation. A $k$ dimension simplex has $k + 1$ vertices. Linear programs can be solved using the simplex approach.Linear program operates on simplicial cones, and these become proper simplices with an additional constraint. The simplicial cones in question are the corners (i.e., the neighborhoods of the vertices) of a geometric object called a polytope. The shape of this polytope is defined by the constraints applied to the objective function. For solving the multiway cut, we keep the k terminals as vertices and develop a $k-1$ dimensional convex polytope given by $\{x \in {\mathbb R}^k \vert \ (x \ge 0) \wedge (\sum_i x_i = 1) \}$
+A simplex is a generalization of the notion of a convex polyhedron to arbitrary dimensions. In our case, we solve the linear programs using the simplex formulation. A $k$ dimension simplex has $k + 1$ vertices. Linear programs can be solved using the simplex approach.Linear program operates on simplicial cones, and these become proper simplices with an additional constraint. The simplicial cones in question are the corners (i.e., the neighborhoods of the vertices) of a geometric object called a polytope. The shape of this polytope is defined by the constraints applied to the objective function. For solving the multiway cut, we keep the k terminals as vertices and develop a $k-1$ dimensional convex polytope given by $\{x \in {\mathbb R}^k \vert \ (x \ge 0) \wedge (\sum\limits_i x_i = 1) \}$
 
 \subsection{L1 Norm}
-L1-norm is also known as Mean-Absolute Error(MAE) or Sum of Absolute Difference(SAD). It is basically used to find the sum of the all the value of a variable. L1 norm of x is basically denoted by $\vert\vert x \vert\vert$. It can also be used to find the difference between two vectors
+L1-norm is also known as Mean-Absolute Error(MAE) or Sum of Absolute Difference(SAD). It is used to find the sum of the all the values of a vector. L1 norm of x is denoted by $\vert\vert x \vert\vert$. It can also be used to find the difference between two vectors
 \begin{align*}
 \text{SAD}(x_1, x_2) = \vert \vert x_1 - x_2 \vert \vert = \sum \vert x_1 - x_2 \vert
 \end{align*}
@@ -127,10 +128,10 @@ Successive Linear Programming(SLP) is an optimization technique for solving non-
 \begin{itemize} \itemsep -3pt
     \item As discussed earlier, any valid solution will split the Graph $G(V,E)$ into $K$ graphs ($C_1, C_2,\cdots,C_k$), with each $C_i$ having a terminal $S_i$
     \item Let $\delta(C_i)$ represent the set of edges which goes out of $C_i$
-    \item Each vertex $v \in V$ is represented as $x_i^j$ and this value is set to 1 if the $i^{th}$ vertex is part of the component $C_i$, else its set to 0. Since a vertex can be a part of only one component, we can say that $\sum_{j=1}^{k}{x^j} = 1, \forall x \in V$, 
+    \item Each vertex $v \in V$ is represented as $x_i^j$ and this value is set to 1 if the $i^{th}$ vertex is part of the component $C_i$, else its set to 0. Since a vertex can be a part of only one component, we can say that $\sum\limits_{j=1}^{k}{x^j} = 1, \forall x \in V$, 
     \item We define another notation $z_e^i$ which operates on all the edges in E and is set to 1 if the edge $e$ is in $\delta(C_i)$ else its set to 0
-    \item If $e$ is in the $\delta(C_i)$, then it connect $(u,v)$ where $u \in C_i, v \notin C_i$. Thus we can write $z_e^i$ as $z_e^i = x_u^i - x_v^i$, since $x_u^i$ will be 1 and $x_v^i$ will be 0, as per the definition of $x$. If $e$ is not in the $\delta(C_i)$, then both u and v belong to a same component, then both $x_u^i$ and $x_v^i$ will be 1 if both belong to component $C_i$ else both will be 0.
-    \item Now for the objective function is $\frac{1}{2}\sum\limits_{e \in E}{c_e * \sum\limits_{i=1}^{k}{z_e^i}}$, where $c_e$ is the cost/weight of the edge. We are multiplying it with $\frac{1}{2}$ because of the double counting which we discussed in the previous explanation.
+    \item If $e$ is in the $\delta(C_i)$, then it connect $(u,v)$ where $u \in C_i, v \notin C_i$. Thus we can write $z_e^i$ as $z_e^i = x_u^i - x_v^i$, since $x_u^i$ will be 1 and $x_v^i$ will be 0, as per the definition of $x$. If $e$ is not in the $\delta(C_i)$, then both u and v belong to a same component, then both $x_u^i$ and $x_v^i$ will be 1. If both dont belong to the same component $C_i$ both will be 0.
+    \item The objective function is $\frac{1}{2}\sum\limits_{e \in E}{c_e * \sum\limits_{i=1}^{k}{z_e^i}}$, where $c_e$ is the cost/weight of the edge. We are multiplying it with $\frac{1}{2}$ because of the double counting which we discussed in the previous explanation.
 \begin{align*}
 \text{Minimize} \qquad & \frac{1}{2}\sum\limits_{e \in E}{c_e * \sum\limits_{i=1}^{k}{z_e^i}}\\
 \text{such that}  \qquad z_e^i &= |x_u^i - x_v^i|, \quad \forall e \in E\\
@@ -164,7 +165,7 @@ Randomized rounding is a technique for designing and analyzing approximation pro
 The multiway cut problem can be converted into an integer program through the linear programming relaxations mentioned in the previous section. Next the authors propose a randomized rounding algorithm to find the multiway cut with cost within a factor of $1.5 - \frac{1}{k}$ of the optimal solution. Take an optimal solution to the relaxation with edges whose endpoints differ in at most two coordinates, and let OPT denote its cost. Once we find the multiway cut of expected cost, we can use lemma 2 and proposition 3 and extend it to general cases.\\
 \vspace{-10pt}
   
-Let $E_i$ = (u, v) $\in$ E $\vert x_{i}^u \neq x_{j}^v$. This is possible since two vertices of the edges lie in two different sets. Let $W_i = \sum_{e \in \epsilon_i}$ c(e).d(e). Without loss of generality, assume that $W_k$ is the greatest of $W_1, \dots , W_k$. The algorithm is used to get an integral solution for the simplex in which all the terminals are present as vertices. We define B(i,$\rho$) to be $\{u \in V \vert x_i^u > 1 - \rho \}$  and it contains the set of nodes which are closer to a terminal i in the simplex. Value of $\rho$ lies in thr range (0,1). Here B represents a ball around each terminal i having a radius $\rho$ and our intention is to find how the various nodes in the graph lie in the simplex using the algorithm.\\
+Let $E_i$ = (u, v) $\in$ E $\vert x_{i}^u \neq x_{j}^v$. This is possible since two vertices of the edges lie in two different sets. Let $W_i = \sum\limits_{e \in \epsilon_i}$ c(e).d(e). Without loss of generality, assume that $W_k$ is the greatest of $W_1, \dots , W_k$. The algorithm is used to get an integral solution for the simplex in which all the terminals are present as vertices. We define B(i,$\rho$) to be $\{u \in V \vert x_i^u > 1 - \rho \}$  and it contains the set of nodes which are closer to a terminal i in the simplex. Value of $\rho$ lies in the range (0,1). Here B represents a ball around each terminal i having a radius $\rho$ and our intention is to map the nodes in simplex to the nearby vertices using the algorithm.\\
 \vspace{-10pt}
 
 The algorithm operates as follows. First, pick $\rho$ at random in (0, 1) and an ordering $\sigma$ from (1, 2, $\dots, k −- 1, k)$ \ and (k −- 1, k - 2, $\dots$ , 1, k). Then partition V into $ V_1, \dots , V_k$ as follows. Proceed in the order given by $\sigma$. Each $V_i$ should contain all vertices in B(i, $\rho$) that have not already been assigned to a previous $V_i$. At the end, assign all unused vertices to $V_k$. The sets $V_1, \dots , V_k$ are the components after removing the cut, and edges between vertices in two different sets are in the cut. The algorithm is:
@@ -173,8 +174,8 @@ The algorithm operates as follows. First, pick $\rho$ at random in (0, 1) and an
 \item Renumber the terminals so that $W_k$ is largest among $W_1, \dots , W_k$.
 \item  Pick uniformly at random $\rho \in $(0, 1) and
 $\sigma \in (1, 2, \dots , k - 1, k)$ \ or $ (k - 1, k - 2, \dots , 1, k)$. Here k is used as the overflow bin and is used only if you are not able to assign a node to any of the k-1 terminals in the simplex. Initially all the nodes are placed in the overflow bin and then the below steps are run.
-\item For j = 1 to $k −- 1$: $V_{\sigma_j} \leftarrow B(j, \rho$) - $\bigcup_{i:i<j} V_{\sigma_i}$. Here basically we assign a node to a terminal only if they are not assigned to any of the previously traversed terminal regions.\
-\item $V_k \leftarrow V - \bigcup_{i<k} V_i$. In this step, we assign all the remaining unassigned vertices to the overflow bin $V_k$ once the above loop is complete.
+\item For j = 1 to $k −- 1$: $V_{\sigma_j} \leftarrow B(j, \rho$) - $\bigcup\limits_{i:i<j} V_{\sigma_i}$. Here basically we assign a node to a terminal only if they are not assigned to any of the previously traversed terminal.\
+\item $V_k \leftarrow V - \bigcup\limits_{i<k} V_i$. In this step, we assign all the remaining unassigned vertices to the overflow bin $V_k$ once the above loop is complete.
 
 \item Let C be the set of edges that run between sets in the partition $V_1,\dots , V_k$.
 \end{itemize}
