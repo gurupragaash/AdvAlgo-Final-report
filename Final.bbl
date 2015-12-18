@@ -35,4 +35,12 @@
 \newblock The complexity of multiterminal cuts.
 \newblock {\em SIAM J. Comput. 23}, 4 (Aug. 1994), 864--894.
 
+\bibitem{Karger_current}
+{\sc Karger, D.~R., Klein, P., Stein, C., Thorup, M., and Young, N.~E.}
+\newblock Rounding algorithms for a geometric embedding of minimum multiway
+  cut.
+\newblock In {\em Proceedings of the Thirty-first Annual ACM Symposium on
+  Theory of Computing\/} (New York, NY, USA, 1999), STOC '99, ACM,
+  pp.~668--678.
+
 \end{thebibliography}

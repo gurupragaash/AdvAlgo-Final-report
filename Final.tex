@@ -14,7 +14,6 @@
 \setlength{\topmargin}{-0.75 in}
 \graphicspath{ {img/}}
 
-
 \title{An Improved Approximation Algorithm for Multiway Cut\\Gruia Calinescu Howard Karloﬀ Yuval Rabani\\Final report for CS 6150}
 \author{Gurupragaash Annasamy Mani \and Praveen Thiraviya Rathinam}
 
@@ -28,7 +27,7 @@ Consider an undirected graph G = (V, E) with vertices V = $\{1, 2, $\dots$, n\}$
 \section{APX-Hard/SNP-Hard}
  APX(Approximable) class is a set of NP optimization problems in which algorithms can be used to find an answer within some fixed multiplicative factor of the optimal answer. APX class is also known as MAX-SNP. A problem is said to be SNP-hard if it does not have a Polynomial Time Approximation Scheme(PTAS).
  
-\section{Related Work} 
+\section{Previous Work on Multiway Cut} 
 \subsection{Isolation Heuristic}
 
 Dahlhaus et al.\cite{Dahlhaus} initiated the study of multiway cut problems. They proposed a simple combinatorial isolation heuristic to approximate the solution to these kinds of problems.In isolation heuristic, given a undirected weighted graph G = (V,E) and K terminals, in each iteration we attach one terminal to the source and all the other terminals to the sink and then run a max-flow algorithm and find the min-cut for each turn. Let the edge set after each iteration be $E_i$. Now the lowest k-1 cuts are taken and the union of them gives the multi-way cut. This algorithm gives an approximation of $2(1-\frac{1}{k})$.\\\\
@@ -74,21 +73,23 @@ Chopra et al.\cite{chopra_1,chopra_2} and Cunningham\cite{cunningham} investigat
 \subsection{Non-linear Formulation}
 Bertsimas et al.\cite{Bertsimas} proposed a non-linear formulation of the multiway cut. Here the optimal solution formulated was an integral one. They suggested several polynomial time-solvable relaxations and gave a simple randomized rounding argument yielding the same approximation ratio of $2(1 - \frac{1}{k})$
 
-\section{Preliminaries of Proposed Solution}
-\subsection{Basic Notations}
-\subsubsection{Simplex Solution}
+\section{Overview of the solution and the Basic Notations}
+\subsection{Overview}
+ Authors use a geometric relaxation of the k-way cut which uses a $(k-1)$ simplex $\bigtriangleup$ which has k vertices and the $i^{th}$ vertex is point x in $\bigtriangleup$ with $x_i$ = 1 and all other coordinates 0. Relaxation is as follows: Map the nodes of the graph to points in the simplex such that the i terminals are mapped to the $i^{th}$ vertex. Each edge is mapped to the line between its end points. The goal here is to minimize the volume of G. The embedding is a relaxation of the minimum k-way cut problem. Once the basic premises are set, the authors find the minimum volume embedding through linear programming. They then propose a randomized rounding scheme to extract the multiway cut which induces a k-way cut in the embedded graph and separates the graph into k isolated components. This cut is supposed to have a cost at most $1.5 - \frac{1}{k}$ times the volume of the embedding. We discuss about the proposed solution in detail in the sections below. 
+
+\subsection{Simplex Solution}
 A simplex is a generalization of the notion of a convex polyhedron to arbitrary dimensions. In our case, we solve the linear programs using the simplex formulation. A $k$ dimension simplex has $k + 1$ vertices. Linear programs can be solved using the simplex approach.Linear program operates on simplicial cones, and these become proper simplices with an additional constraint. The simplicial cones in question are the corners (i.e., the neighborhoods of the vertices) of a geometric object called a polytope. The shape of this polytope is defined by the constraints applied to the objective function. For solving the multiway cut, we keep the k terminals as vertices and develop a $k-1$ dimensional convex polytope given by $\{x \in {\mathbb R}^k \vert \ (x \ge 0) \wedge (\sum_i x_i = 1) \}$
 
-\subsubsection{L1 Norm}
+\subsection{L1 Norm}
 L1-norm is also known as Mean-Absolute Error(MAE) or Sum of Absolute Difference(SAD). It is basically used to find the sum of the all the value of a variable. L1 norm of x is basically denoted by $\vert\vert x \vert\vert$. It can also be used to find the difference between two variables
 \begin{align*}
 \text{SAD}(x_1, x_2) = \vert \vert x_1 - x_2 \vert \vert = \sum \vert x_1 - x_2 \vert
 \end{align*}
 
-\subsubsection{Unit Vector}
+\subsection{Unit Vector}
 Unit vectors are used for denoting the spatial direction and generally represent the axes of a cartesian co-ordinate system. In our case, the unit vectors are used to represent the position of the vertices of the graph on the $k-1$ dimensional simplex. For j = 1, 2,$\dots$,k, $e^j \in \mathbb{R}$ denotes the unit vector given by $(e^j)_j$ = 1 and $(e^j)_i$ = 0 for all i $\notin$ j.
 
-\subsubsection{Semimetric}
+\subsection{Semimetric}
 Semimetric is a pair $(V, d)$, where $V$ is a set and $d$ is a function which operates on $V$ such that $d: V \times V \rightarrow \mathbb{R}$, $\forall u,v \in V$.
 \begin{align*}
 d(u, v) &= d(v, u) \ge 0\\
@@ -114,7 +115,7 @@ d(u,v) &\le d(u,w) + d(w,v)
 \caption{Sample Graph}
 \label{fig:sample_graph}
 \end{wrapfigure}
-Consider the graph in Figure~\ref{fig:sample_graph}. Let nodes A and E be terminals and we want to find a cut. In the LP, all the $d(u,v)$ where $uv$ is an valid edges is the decision variable and the value of it can be 0 or 1. From equation 3, we can say that $d(A, E) = 1$ and we don't know the other values. But based on equation 7, we can write $d(A, E) \le d(A, B) + d(B, E)$, $d(A, E) \le d(A, C) + d(C, E)$ and $d(A, E) \le d(A, D) + d(B, D)$. These contribute to the additional constraints which are derived from the constraint $(V,d)$ is a semimetric.Now the LP can should assign atleast value 1 to one of the pairs in $(d(A, B), d(B, E))$, $d(A, C),  d(C, E)$ and $d(A, D) + d(B, D)$. Assign the d(u, v) with a value 1 means, selecting the edge for the cut. Since our objective function is to minimize it, the LP will find which edge costs minimum and that will be the optimal solution. The authors want to come up with much more stricter constraints to reduce the number of valid solution. Lets look into the constraint $\sum\limits_{t \in T}{d(u, t)} = k - 1 \quad \forall u \in V$ using the example from the Figure.In this example, the nodes A, B and C are terminals. If we run our LP without the new constraints, there are four valid solutions, which represent the cuts {(AD, DB), (AD, DC), (DB, DC) and (AD, DB, DC)}. In this set of values, (AD, DB, DC) is not a optimal one but still is a valid solution. In a large graph, there could be many such solution, which could increase the number of valid solution. But this one can be removed easily with the new constraint, $\sum\limits_{t \in T}{d(u, t)} = k - 1 \quad \forall u \in V$. The new constraint says, if there is a node u, as long as its not connected to more than one terminal it is fine. So if there are k nodes, then $\sum\limits_{t \in T}{d(u, t)} = k - 1$, which means only $K-1$ cuts are required and not $K$ cuts
+Consider the graph in Figure~\ref{fig:sample_graph}. Let nodes A and E be terminals and we want to find a cut. In the LP, all the $d(u,v)$ where $uv$ is an valid edges is the decision variable and the value of it can be 0 or 1. From equation 3, we can say that $d(A, E) = 1$ and we don't know the other values. But based on equation 7, we can write $d(A, E) \le d(A, B) + d(B, E)$, $d(A, E) \le d(A, C) + d(C, E)$ and $d(A, E) \le d(A, D) + d(B, D)$. These contribute to the additional constraints which are derived from the constraint $(V,d)$ is a semimetric.Now the LP can should assign atleast value 1 to one of the pairs in $(d(A, B), d(B, E))$, $d(A, C),  d(C, E)$ and $d(A, D) + d(B, D)$. Assign the d(u, v) with a value 1 means, selecting the edge for the cut. Since our objective function is to minimize it, the LP will find which edge costs minimum and that will be the optimal solution. The authors want to come up with much more stricter constraints to reduce the number of valid solution. Lets look into the constraint $\sum\limits_{t \in T}{d(u, t)} = k - 1 \quad \forall u \in V$ using the example from the Figure.In this example, the nodes A, B and C are terminals. If we run our LP without the new constraints, there are four valid solutions, which represent the cuts {(AD, DB), (AD, DC), (DB, DC) and (AD, DB, DC)}. In this set of values, (AD, DB, DC) is not a optimal one but still is a valid solution. In a large graph, there could be many such solution, which could increase the number of valid solution. But this one can be removed easily with the new constraint, $\sum\limits_{t \in T}{d(u, t)} = k - 1 \quad \forall u \in V$. The new constraint says, if there is a node u, as long as its not connected to more than one terminal it is fine. So if there are k nodes, then $\sum\limits_{t \in T}{d(u, t)} = k - 1$, which means only $K-1$ cuts are required and not $K$ cuts.
 
 \subsection{Successive Linear Programming}
 \begin{itemize} \itemsep -3pt
@@ -133,15 +134,19 @@ Consider the graph in Figure~\ref{fig:sample_graph}. Let nodes A and E be termin
         \end{align*}
 \end{itemize}
 
-\section{Rounding Algorithm}
-The authors propose a randomized rounding algorithm to find the multiway cut with cost within a factor of $1.5 - \frac{1}{k}$ of the optimal solution. Take an optimal solution to the relaxation with edges whose endpoints differ in at most two coordinates, and let OPT denote its cost. Once we find the multiway cut of expected cost, we can use lemma 2 and proposition 3 and extend it to general cases.\\
-  
-Let $E_i$ = (u, v) $\in$ E $\vert x_{i}^u \neq x_{j}^v$. This is possible since two vertices of the edges lie in two different sets. Let $W_i = \sum_{e \in \epsilon_i}$ c(e).d(e). Without loss of generality, assume that $W_k$ is the greatest of $W_1, \dots , W_k$. The algorithm is used to get an integral solution for the simplex in which all the terminals are present as vertices. We define B(i,$\rho$) to be $\{u \in V \vert x_i^u > 1 - \rho \}$  and it contains the set of nodes which are closer to a terminal i in the simplex. Value of $\rho$ lies in thr range (0,1). Here B represents a ball around each terminal i having a radius $\rho$ and our intention is to find how the various nodes in the graph lie in the simplex using the algorithm.\\
+\section{Subdivisions}
+Lets say we have a graph $G(V,E)$ with $K$ terminals and $c(u,v)$ representing the cost of the edge connecting nodes(u,v). We can create a graph $G^{'}$ from G, by splitting the edges across $(u,v)$, into two edges by introducing a node in the edge. The new edges are $(u,w)$ and $(w,v)$ and $w$ is a new node which is a normal node and not a terminal. Now we assign $c(u,v)$ to both $c(u,w)$, $c(w,v)$ and the edge $(u,v)$ is removed. We do this process some finite number of times and now we have a graph $G'(V',E')$  which is constructed from $G(V,E)$. The authors claim that if G' has a multiway cut $C^{'}$ of cost Z, then we can construct a cut C for G which has a cost atmost Z. We can do this by looking into the edge in $C^{'}$. $\forall e \in C'$ check if $e \in E$, then add it to C. If $e \notin E$, find the edge $e' \ \text{in} \ E$ which was split to get $e \in E'$ and add $e'$ to C. This set C is the multiway cut for graph G.
 
-The algorithm operates as follows. First, pick $\rho$ at random in (0, 1) and an ordering $\sigma$ from (1, 2, $\dots, k −- 1, k)$ \ and (k −- 1, k - 2, $\dots$ , 1, k). Then partition V into $ V_1, \dots , V_k$ as follows. Proceed in the order given by $\sigma$. Each
-$V_i$ should contain all vertices in B(i, $\rho$) that have not already been assigned to a previous $V_i$. At the end, assign all unused vertices to $V_k$. The sets
-$V_1, \dots , V_k$ are the components after removing the cut, and edges between vertices in two different sets are in the cut.More formally, the algorithm is:
-\begin{itemize}
+\subsection{Purpose of subdivisions}
+For the solution proposed in the paper, the nodes in the graph should have the property that the unit vectors must differ by only 0 or 2 co-ordinates. But the graphs normally do not have this property. We induce this property into the graph with the help of subdivision method. We pick an edge and check if the vectors of nodes$(u,v)$ from the edge differ by more than two. If so we introduce a new node $w$. Now the distance between $(u,v)$ is split into two $(u,w)$ and $(w,v)$. These two edges will further be split if they do not follow the property. This process is continued till all the edges in the graph satisfy the property. Worst case it will be $k$ such divisions for each edge and thereby introducing a max of $k\vert E \vert$ nodes in the graph. If we run the algorithm in the system we will can get a solution which is $(1.5 - \frac{1}{k})OPT$. This is what is discussed in Proposition 2 and Lemma 3 in the paper. 
+
+\section{Rounding Algorithm}
+The authors propose a randomized rounding algorithm to find the multiway cut with cost within a factor of $1.5 - \frac{1}{k}$ of the optimal solution. Take an optimal solution to the relaxation with edges whose endpoints differ in at most two coordinates, and let OPT denote its cost. Once we find the multiway cut of expected cost, we can use lemma 2 and proposition 3 and extend it to general cases.
+  
+Let $E_i$ = (u, v) $\in$ E $\vert x_{i}^u \neq x_{j}^v$. This is possible since two vertices of the edges lie in two different sets. Let $W_i = \sum_{e \in \epsilon_i}$ c(e).d(e). Without loss of generality, assume that $W_k$ is the greatest of $W_1, \dots , W_k$. The algorithm is used to get an integral solution for the simplex in which all the terminals are present as vertices. We define B(i,$\rho$) to be $\{u \in V \vert x_i^u > 1 - \rho \}$  and it contains the set of nodes which are closer to a terminal i in the simplex. Value of $\rho$ lies in thr range (0,1). Here B represents a ball around each terminal i having a radius $\rho$ and our intention is to find how the various nodes in the graph lie in the simplex using the algorithm.
+
+The algorithm operates as follows. First, pick $\rho$ at random in (0, 1) and an ordering $\sigma$ from (1, 2, $\dots, k −- 1, k)$ \ and (k −- 1, k - 2, $\dots$ , 1, k). Then partition V into $ V_1, \dots , V_k$ as follows. Proceed in the order given by $\sigma$. Each $V_i$ should contain all vertices in B(i, $\rho$) that have not already been assigned to a previous $V_i$. At the end, assign all unused vertices to $V_k$. The sets $V_1, \dots , V_k$ are the components after removing the cut, and edges between vertices in two different sets are in the cut. The algorithm is:
+\begin{itemize} \itemsep -2pt
 \item  Compute an optimal solution to relaxation
 \item Renumber the terminals so that Wk is largest among $W_1, \dots , W_k$.
 \item  Pick uniformly at random $\rho \in $(0, 1) and
@@ -150,34 +155,27 @@ $\sigma \in (1, 2, \dots , k - 1, k)$ \ or $ (k - 1, k - 2, \dots , 1, k)$. Here
 \item $V_k \leftarrow V - \bigcup_{i<k} V_i$. In this step, we assign all the remaining unassigned vertices to the overflow bin $V_k$ once the above loop is complete.
 
 \item Let C be the set of edges that run between sets in the partition $V_1,\dots , V_k$.
-
 \end{itemize}
-  
-\section{Subdivisions}
-Lets say we have a graph $G(V,E)$ with $K$ terminals and $c(u,v)$ representing the cost of the edge connecting nodes(u,v). We can create a graph G' from G, by spliting the edges across $(u,v)$, into two edges by introducing a node in the edge. The new edges are $(u,w)$ and $(w,v)$ and $w$ is a new node which is a normal node and not a terminal. Now we assign $c(u,v)$ to both $c(u,w)$, $c(w,v)$ and the edge $(u,v)$ is removed. We do this process some finite number of times and now we have a graph $G'(V',E')$  which is constructed from $G(V,E)$. The authors claim that if G' has a multiway cut C' of cost Z, then we can construct a cut C for G which has a cost atmost Z. We can do this by, looking into the edge in C'. $\forall e in C'$ check if $e in E$, then add it to C. If $e \notin E$ find the edge $e' \in E$ which was split to get $e \in E'$ and add $e'$ to C. This set C is the multiway cut for G.
 
-\section{Why subdivision}
-Like we described earlier, for the algorithm to work, the nodes in the graph should have the property( the property where they differ by atmost 2). But the graphs normally do not have this property. We induce this property into the graph with the help of subdivision method which we discussed previously. We pick an edge, check if the vectors of nodes$(u,v)$ from the edge differ by more than two. If so we introduce a new node $w$. Now the distance between $(u,v)$ is split into two $(u,w)$ and $(w,v)$. These two edges will further be split if they do not follow the property. This process is continued till all the edges in the graph satisfy the property. Worst case it will be $k$ such divisions for each edge and thereby introducing a max of $k\vert E \vert$ nodes in the graph. If we run the algorithm in the system we will can get a solution which is $(1.5 - \frac{1}{k})OPT$. This is what is discussed in Proposition 2 and Lemma 3 in the paper 
-
-\section{Why the algorithm works}
-The edges in the graph can be split into two groups $E_0$ and $E_{ij}$. $E_0$ equals set of edges where $x^u = x^v$(u,v are the nodes connected by the edge). The other edges fall under $E_{ij}$ where $(x_i^u \neq x_i^v \and x_j^u \neq x_j^v)$ which means, there are two terminals $(i,j)$, associated with nodes of the edge. There are 4 values associated with this edge $x_i^u, x_j^u, x_i^v, x_j^v$. Lets find the max of the 4 and keep that as $x_i^u$ and rearrange others accordingly. The authors claim that $\forall uv \in E_{ij}$, either $x_i^u \ge x_i^v \ge x_j^v \ge x_j^u$ or $x_i^u \ge x_j^u \ge x_i^v \ge x_j^u$. This is because we know $\sum\limits_{i=1}^{k}{x_i^u} = 1 = \sum\limits_{i=1}^{k}{x_i^v}$ and since they differ by at max two, we can write $x_i^u + x_j^u = x_i^v + x_j^v$. Since $x_i^u$ is the max value, the min value will be $x_j^u$ and the other two will lie in the the middle and thus the inequality. \\
-Lets analyse the probability of an edge in the CUT from our algorithm.
-\begin{itemize}
-    \item Edges $uv \in E \backslash \bigcup\limits_{t:t<k}{E_{tk}}$. The edges which have $x_u = x_v$ will always be together no matter the value of $\sigma, \rho$(Assigned to the same terminal). So $\Pr(uv \in C) = 0,\quad \forall uv \text{ if} (x_u = x_v)$. Now for the edges in $E_{ij}$, $forall l \in {1,2,3\cdots,k} \ {i,j} x_l^u = x_l^v$ and hence they will either be assigned to the same terminal or they wont be assigned to any of the terminal in $l$. So a cut is possible only when either of $(u,v)$ is assigned to $(i,j)$. This depends on the value of $\rho$. When $i \prec j$, from the inequality explained in the previous paragraph, we can say that if $\rho$ is close to $1-x_j^u$, then both the nodes $u,v$ will be assigned to $i$ since the circle is big enough to contain both, so $\Pr(C_{uv}) = 0$. If the value is in range $(1-x_i^u, 1-x_i^v]$, then the circle is small and hence only $u$ will be assigned to $i$. When $j \prec i$, we dont have any restriction on the value of $\rho$. It can taken any value in range $(1-x_i^u, 1-x_j^u]$ and still only $v$ will be assigned to $j$. The value of $\rho$ should be more than $1-x_j^u$ for it to include $u$. Let $I_L = (1 - x_i^u, 1 - x_i^v]$ and $I_R = (1-x_j^v, 1-x_j^u]$. 
-        \begin{align}
+\subsection{Analysis of the Algorithm}
+The edges in the graph can be split into two groups $E_0$ and $E_{ij}$. $E_0$ equals set of edges where $x^u = x^v$(u,v are the nodes connected by the edge). The other edges fall under $E_{ij}$ where $(x_i^u \neq x_i^v \and x_j^u \neq x_j^v)$ which means, there are two terminals $(i,j)$, associated with nodes of the edge. There are 4 values associated with this edge $x_i^u, x_j^u, x_i^v, x_j^v$. Lets find the max of the 4 and keep that as $x_i^u$ and rearrange others accordingly. The authors claim that $\forall uv \in E_{ij}$, either $x_i^u \ge x_i^v \ge x_j^v \ge x_j^u$ or $x_i^u \ge x_j^u \ge x_i^v \ge x_j^u$. This is because we know $\sum\limits_{i=1}^{k}{x_i^u} = 1 = \sum\limits_{i=1}^{k}{x_i^v}$ and since they differ by at max two, we can write $x_i^u + x_j^u = x_i^v + x_j^v$. Since $x_i^u$ is the max value, the min value will be $x_j^u$ and the other two will lie in the the middle and thus the inequality. Lets analyze the probability of an edge in the CUT from our algorithm.
+\begin{itemize} \itemsep -3pt
+    \item Edges $uv \in E \ \backslash \bigcup\limits_{t:t<k}{E_{tk}}$. The edges which have $x_u = x_v$ will always be together no matter the value of $\sigma, \rho$(Assigned to the same terminal). So $\Pr(uv \in C) = 0,\quad \forall uv \text{ if} (x_u = x_v)$. Now for the edges in $E_{ij}$, $\forall l \in \{1,2,3\cdots,k\} \backslash \{i,j\}$,  $x_l^u = x_l^v$ and hence they will either be assigned to the same terminal or they wont be assigned to any of the terminal in $l$. So a cut is possible only when either of $(u,v)$ is assigned to $(i,j)$. This depends on the value of $\rho$. When $i \prec j$, from the inequality explained in the previous paragraph, we can say that if $\rho$ is close to $1-x_j^u$, then both the nodes $u,v$ will be assigned to $i$ since the circle is big enough to contain both, so $\Pr(C_{uv}) = 0$. If the value is in range $(1-x_i^u, 1-x_i^v]$, then the circle is small and hence only $u$ will be assigned to $i$. When $j \prec i$, we dont have any restriction on the value of $\rho$. It can taken any value in range $(1-x_i^u, 1-x_j^u]$ and still only $v$ will be assigned to $j$. The value of $\rho$ should be more than $1-x_j^u$ for it to include $u$. Let $I_L = (1 - x_i^u, 1 - x_i^v]$ and $I_R = (1-x_j^v, 1-x_j^u]$ which is stated as part of Lemma 5 and Proposition 4.
+        \begin{align*}
             \Pr[uv \in C] &\le \Pr[(j \prec i) \and (\rho \in I_L \cup I_R) ] + \Pr[(i \prec j) \and (\rho \in I_L)]\\
             &\le \Pr[(j \prec i) \and (\rho \in I_L)] + \Pr[(j \prec i) \and (\rho \in I_R)] + \Pr[(i \prec j) \and (\rho \in I_L)]\\
             &\le \frac{1}{2}d(u,v) + \frac{1}{2}d(u,v) + \frac{1}{2}d(u,v) \quad\text{$\frac{1}{2}$ is the probability of $i \prec j$ and viceversa}\\
-            &\le 1.5 d(u,v)
-        \end{align}
-    \item Edges $uv \in \bigcup\limits_{t:t<k}{E_{tk}}$. Same explanation as about but here $i$ will always preced $k$ and hence one of them nodes must be assigned with $i$ is processed.
-        \begin{align}
-            \Pr[uv \in C] &\le \Pr[\rho \in I_L]\\
-            &\le d(u,v)
-        \end{align}
+         \Pr[uv \in C] &\le 1.5 \ d(u,v) \ \text{which is the Lemma 5}
+        \end{align*}
+    \item Edges $uv \in \bigcup\limits_{t:t<k}{E_{tk}}$. Same explanation as about but here $i$ will always preced $k$ and hence one of them nodes must be assigned with $i$ is processed 
+\begin{align*}       
+\Pr[uv \in C] &\le \Pr[\rho \in I_L]\\
+\Pr[uv \in C] &\le d(u,v) \ \text{which is the Lemma 6}
+\end{align*}    
 \end{itemize}
-\section{Proof}
-\begin{itemize}
+
+\section{Approximation Ratio Proof}
+\begin{itemize} \itemsep -3pt
     \item Let $Z_i$ be the weight of the edges present in $C_i$ which is the set of edges leaving the connected component $i$. 
         \begin{align}
             Z_i = \sum\limits_{uv \in \bigcup\limits_{t:t \ne i}{E_{ti}}}{c(u,v)d(u,v)}
@@ -186,20 +184,28 @@ Lets analyse the probability of an edge in the CUT from our algorithm.
         \begin{align}
             \sum\limits_{uv \in \bigcup\limits_{t:t \ne i}{E_{ti}}}{c(u,v)d(u,v)} \le k * Z_k
         \end{align}
-    \item From the LP's we know that
+    \item From the LP's, we know that
         \begin{align}
             \sum\limits_{i = 1}^{k}{Z_i} = 2 * OPT
         \end{align}
     \item From the above two equations we can say that, $Z_k \le \frac{2}{k} OPT$ 
     \item From the analyis we can calculate the expected value of the cost of the edges as,
         \begin{align*}
-            Expected[c(C)] &= \sum\limits_{uv \in E}{c(u,v) \Pr(uv \in C)}\\
+            \text{Expected}[c(C)] &= \sum\limits_{uv \in E}{c(u,v) \Pr(uv \in C)}\\
             &\le \sum\limits_{uv \in E \backslash \bigcup\limits_{t:t<k}{E_{tk}}}{c(u,v) \Pr(uv \in C)} + \sum\limits_{uv \in \bigcup\limits_{t:t<k}{E_{tk}}}{c(u,v) \Pr(uv \in C)} \\
             &\le 1.5 (OPT) + 0.5(Z_K)\\
-            &\le (1.5 + 0.5\frac{2}{k})OPT\\
-            &\le (1.5 + \frac{1}{k})OPT
+            &\le (1.5 + 0.5 \ \frac{2}{k})OPT\\
+            &\le (1.5 + \frac{1}{k})OPT \ \text{which is the approximation ratio proposed}
         \end{align*}
 \end{itemize}
+
+
+\section{Latest Work related to Multiway Cut}
+
+David R. Karger et al.~\cite{Karger_current} built up on the geometric relaxation proposed by Calinescu et al.~\cite{Dahlhaus} and proposed better bounds for the multiway cut problem. They determined the integrality gap of the relaxation and found an algorithm whose approximation ratio matches the integrality gap. For k = 3, they had better performance ratio of $\frac{12}{11}$ improving the bound of $\frac{7}{6}$ proposed by Calinescu et al. They also state that the bound they proposed is the best possible bound for the minimum 3-way cut. For larger number of terminals, they state that their method gives better bounds than the bounds obtained using Calinescu et al. They bound obtained is 1.3438 - $\epsilon_k$ where $\epsilon_k > 0$ which is < than 1.5 - $\frac{1}{k}$. 
+
+\section{Conclusion}
+
 
 
 { %\footnotesize
