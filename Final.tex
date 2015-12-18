@@ -15,21 +15,20 @@
 \setlength{\topmargin}{-0.75 in}
 \graphicspath{ {img/}}
 
-\title{An Improved Approximation Algorithm for Multiway Cut\\Gruia Calinescu Howard Karloﬀ Yuval Rabani\\Final report for CS 6150}
+\title{An Improved Approximation Algorithm for Multiway Cut\\Gruia Calinescu Howard Karloﬀ Yuval Rabani\\Final report for CS 6150 Project}
 \author{Gurupragaash Annasamy Mani \and Praveen Thiraviya Rathinam}
 
 \begin{document}
 \maketitle
 
 \section{Multiway Cut}
-Consider an undirected graph G = (V, E) with vertices V = $\{1, 2, $\dots$, n\}$ and edges E with weights w: E $\rightarrow R^{+}$. Let T = $\{1, 2, . . . , k\} \subseteq$ V be a set of terminals. Multiway Cut is the problem of finding a minimum cost cut C $\subseteq$ E such that no connected component of G(V, E - C) contains two terminals from T. In case of just two terminals, minimum multiway cut is just a min s-t cut problem and hence can be solved in polynomial time by running a maximum flow algorithm from one terminal to the other. But when the number of terminals becomes $\ge 3$, then the problem of computing the minimum weight multiway cut is NP-hard and max SNP-hard as stated by by Dahlhaus et al.~\cite{Dahlhaus}. In other words, there is a constant $\delta >$ 1 such that it is NP-Hard to even approximate the solution to within a ratio of less than $\delta$. Unless P = NP, there is no polynomial-time approximation scheme for Multiway Cut.
-\paragraph{APX-Hard/SNP-Hard}
-APX(Approximable) class is a set of NP optimization problems in which algorithms can be used to find an answer within some fixed multiplicative factor of the optimal answer. APX class is also known as MAX-SNP. A problem is said to be SNP-hard if it does not have a Polynomial Time Approximation Scheme(PTAS).
+Consider an undirected graph G = (V, E) with vertices V = $\{1, 2, $\dots$, n\}$ and edges E with weights w: E $\rightarrow R^{+}$. Let T = $\{1, 2, . . . , k\} \subseteq$ V be a set of terminals. Multiway Cut is the problem of finding a minimum cost cut C $\subseteq$ E such that no connected component of G(V, E - C) contains two terminals from T. In case of just two terminals, minimum multiway cut is just a min s-t cut problem and hence can be solved in polynomial time by running a maximum flow algorithm from one terminal to the other. But when the number of terminals becomes $\ge 3$, then the problem of computing the multiway cut is NP-hard and more specifically max SNP-hard as stated by Dahlhaus et al.~\cite{Dahlhaus}. In other words, there is a constant $\delta >$ 1 such that it is NP-Hard to even approximate the solution to within a ratio of less than $\delta$. Unless P = NP, there is no polynomial-time approximation scheme for Multiway Cut.
+\paragraph{APX-Hard/SNP-Hard :}
+APX(Approximable) class is a set of NP optimization problems in which algorithms can be used to find an answer within some fixed multiplicative factor of the optimal answer. APX class is also known as MAX-SNP. A problem is said to be SNP-hard if it does not have a Polynomial Time Approximation Scheme(PTAS). Finding a min Multiway-cut falls under this category when the number of terminals are $\ge 3$.
  
 \section{Previous Work on Multiway Cut} 
 \subsection{Isolation Heuristic}
 Dahlhaus et al.\cite{Dahlhaus} initiated the study of multiway cut problems. They proposed a simple combinatorial isolation heuristic to approximate the solution to these kinds of problems.In isolation heuristic, given a undirected weighted graph G = (V,E) and K terminals, in each iteration we attach one terminal to the source and all the other terminals to the sink and then run a max-flow algorithm and find the min-cut for each turn. Let the edge set after each iteration be $E_i$. Now the lowest k-1 cuts are taken and the union of them gives the multi-way cut. This algorithm gives an approximation of $2(1-\frac{1}{k})$.\\\\
-\newpage
 \textbf{Proof:}
 \begin{itemize}
     \item Run the isolation heuristic scheme and get the set of edges. Let they be A.
@@ -67,14 +66,14 @@ Chopra et al.\cite{chopra_1,chopra_2} and Cunningham\cite{cunningham} investigat
 
 \textbf{Cunningham} showed that for one particular formulation of the problem, the value of the minimum multiway cut is almost twice of its linear relaxation.
 
-\subsection{Non-linear Formulation}
+\subsection{Non-linear Formulation Approach}
 Bertsimas et al.\cite{Bertsimas} proposed a non-linear formulation of the multiway cut. Here the optimal solution formulated was an integral one. They suggested several polynomial time-solvable relaxations and gave a simple randomized rounding argument yielding the same approximation ratio of $2(1 - \frac{1}{k})$
 
 \section{Overview of the solution and the Basic Notations}
 \subsection{Overview}
 The objective to find a minimum muliway cut for a graph G. The authors define Linear Programming relaxation(LP1, LP2). Run the LP with the specified relaxations on the input graph G. The solution to the LP program, maps each node in G to $\bigtriangleup$. Now in the solution, if there are edges in the graph whose node's unit vectors differ by more than 2, do subdivision on that edge. Do this for all the edges as long as the nodes' vectors differ by atmost 2 co-ordinates which results in graph G'. Then run the rounding algorithm and the solution of the rounding algorithm is of the approximation ratio $(1.5 - \frac{1}{k})$ OPT. We will look into the LP, the relaxation, the process of subdivision, how addition of new edges doesn't alter the CUT size, the rounding algorithm and how the approximation ratio is achieved in detail in the following sections.
 
-\subsection{Simplex Solution}
+\subsection{Simplex Method}
 A simplex is a generalization of the notion of a convex polyhedron to arbitrary dimensions. In our case, we solve the linear programs using the simplex formulation. A $k$ dimension simplex has $k + 1$ vertices. Linear programs can be solved using the simplex approach.Linear program operates on simplicial cones, and these become proper simplices with an additional constraint. The simplicial cones in question are the corners (i.e., the neighborhoods of the vertices) of a geometric object called a polytope. The shape of this polytope is defined by the constraints applied to the objective function. For solving the multiway cut, we keep the k terminals as vertices and develop a $k-1$ dimensional convex polytope given by $\{x \in {\mathbb R}^k \vert \ (x \ge 0) \wedge (\sum\limits_i x_i = 1) \}$
 
 \subsection{L1 Norm}
@@ -222,8 +221,8 @@ The edges in the graph can be split into two groups $E_0$ and $E_{ij}$. $E_0$ eq
 \end{itemize}
 
 
-\section{Latest Work on Multiway Cut approximation}
-David R. Karger et al.~\cite{Karger_current} built up on the geometric relaxation proposed by Calinescu et al.~\cite{Dahlhaus} and proposed better bounds for the multiway cut problem. They determined the integrality gap of the relaxation and found an algorithm whose approximation ratio matches the integrality gap. For k = 3, they had better performance ratio of $\frac{12}{11}$ improving the bound of $\frac{7}{6}$ proposed by Calinescu et al. They also state that the bound they proposed is the best possible bound for the minimum 3-way cut. For larger number of terminals, they state that their method gives better bounds than the bounds obtained using Calinescu et al. They bound obtained is 1.3438 - $\epsilon_k$ where $\epsilon_k > 0$ which is < than 1.5 - $\frac{1}{k}$. 
+\section{Recent Work on Multiway Cut approximation}
+David R. Karger et al.~\cite{Karger_current} built up on the geometric relaxation proposed by Calinescu et al.~\cite{Dahlhaus} and proposed better bounds for the multiway cut problem. They determined the integrality gap of the relaxation and found an algorithm whose approximation ratio matches the integrality gap. For k = 3, they had better performance ratio of $\frac{12}{11}$ improving the bound of $\frac{7}{6}$ proposed by Calinescu et al. They also state that the bound they proposed is the best possible bound for the minimum 3-way cut. For larger number of terminals, they state that their method gives better bounds than the bounds obtained using Calinescu et al. The bound they obtained is 1.3438 - $\epsilon_k$ where $\epsilon_k > 0$ which is better than 1.5 - $\frac{1}{k}$. 
 
 \section{Conclusion}
 From our analysis of the paper, we were able to get a deeper understanding of how a simplex formulation is useful in deriving an approximation for a NP-Hard problem. The paper gave us a clear picture of how linear programming and a randomized rounding method can be used to approach a problem. The Linear programming session in the class helped us in understanding the relaxations better and enabled us to proceed further. We were more interested in knowing how the approximation ratio is derived and hence didn't concentrate on the de-randomization method stated in the paper. Notes from MIT\cite{mit_content} and UIC\cite{illinois_content} were helpful in getting started with the paper.   

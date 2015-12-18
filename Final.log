@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.8.25)  18 DEC 2015 16:43
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.8.25)  18 DEC 2015 16:52
 entering extended mode
 **Final.tex
 (C:\Users\Praveen\Documents\GitHub\AdvAlgo-Final-report\Final.tex
@@ -276,27 +276,22 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 22.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 31--32
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 31--32
+Underfull \hbox (badness 10000) in paragraph at lines 31--33
 
  []
 
 [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 35.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 34.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 35.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 34.
  [2] [3]
-Overfull \hbox (0.72514pt too wide) in paragraph at lines 81--82
+Overfull \hbox (0.72514pt too wide) in paragraph at lines 80--81
 \OT1/cmr/m/n/10.95 L1-norm is also known as Mean-Absolute Er-ror(MAE) or Sum of
  Ab-so-lute Dif-fer-ence(SAD).
  []
@@ -304,13 +299,13 @@ Overfull \hbox (0.72514pt too wide) in paragraph at lines 81--82
 <img/graph.png, id=22, 131.89275pt x 228.25275pt>
 File: img/graph.png Graphic file (type png)
  <use img/graph.png>
-Package pdftex.def Info: img/graph.png used on input line 110.
+Package pdftex.def Info: img/graph.png used on input line 109.
 (pdftex.def)             Requested size: 32.9731pt x 57.06303pt.
 
 <img/graph2.png, id=24, 235.88126pt x 274.02374pt>
 File: img/graph2.png Graphic file (type png)
  <use img/graph2.png>
-Package pdftex.def Info: img/graph2.png used on input line 112.
+Package pdftex.def Info: img/graph2.png used on input line 111.
 (pdftex.def)             Requested size: 58.97017pt x 68.50577pt.
 
 [4] [5 <C:/Users/Praveen/Documents/GitHub/AdvAlgo-Final-report/img/graph.png> <
@@ -331,7 +326,7 @@ Missing character: There is no ’ in font cmr10!
 Here is how much of TeX's memory you used:
  2948 strings out of 493921
  38401 string characters out of 3144870
- 105486 words of memory out of 3000000
+ 105494 words of memory out of 3000000
  6197 multiletter control sequences out of 15000+200000
  14786 words of font info for 57 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
@@ -357,7 +352,7 @@ ype1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
 ublic/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pub
 lic/amsfonts/cm/cmtt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publi
 c/amsfonts/symbols/msbm10.pfb>
-Output written on Final.pdf (11 pages, 299163 bytes).
+Output written on Final.pdf (11 pages, 299435 bytes).
 PDF statistics:
  123 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
