@@ -1,0 +1,38 @@
+\begin{thebibliography}{1}
+
+\bibitem{Bertsimas}
+{\sc Bertsimas, D., Teo, C., and Vohra, R.~V.}
+\newblock {Nonlinear formulations and improved randomized approximation
+  algorithms for multiway and multicut problems}.
+\newblock Working papers 3838-95., Massachusetts Institute of Technology (MIT),
+  Sloan School of Management.
+
+\bibitem{chopra_1}
+{\sc Chopra, S., and Owen, J.}
+\newblock Extended formulations for the a-cut problem.
+\newblock {\em Mathematical Programming 73}, 1 (1996), 7--30.
+
+\bibitem{chopra_2}
+{\sc Chopra, S., and Rao, M.~R.}
+\newblock On the multiway cut polyhedron.
+\newblock {\em Networks 21}, 1 (1991), 51--89.
+
+\bibitem{cunningham}
+{\sc Cunningham, W.}
+\newblock The optimal multiterminal cut problem.
+
+\bibitem{Dahlhaus_Alon}
+{\sc Dahlhaus, E., Johnson, D.~S., Papadimitriou, C.~H., Seymour, P.~D., and
+  Yannakakis, M.}
+\newblock The complexity of multiway cuts (extended abstract).
+\newblock In {\em Proceedings of the Twenty-fourth Annual ACM Symposium on
+  Theory of Computing\/} (New York, NY, USA, 1992), STOC '92, ACM,
+  pp.~241--251.
+
+\bibitem{Dahlhaus}
+{\sc Dahlhaus, E., Johnson, D.~S., Papadimitriou, C.~H., Seymour, P.~D., and
+  Yannakakis, M.}
+\newblock The complexity of multiterminal cuts.
+\newblock {\em SIAM J. Comput. 23}, 4 (Aug. 1994), 864--894.
+
+\end{thebibliography}
