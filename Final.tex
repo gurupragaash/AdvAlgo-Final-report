@@ -153,12 +153,53 @@ $\sigma \in (1, 2, \dots , k - 1, k)$ \ or $ (k - 1, k - 2, \dots , 1, k)$. Here
 
 \end{itemize}
   
- 
+\section{Subdivisions}
+Lets say we have a graph $G(V,E)$ with $K$ terminals and $c(u,v)$ representing the cost of the edge connecting nodes(u,v). We can create a graph G' from G, by spliting the edges across $(u,v)$, into two edges by introducing a node in the edge. The new edges are $(u,w)$ and $(w,v)$ and $w$ is a new node which is a normal node and not a terminal. Now we assign $c(u,v)$ to both $c(u,w)$, $c(w,v)$ and the edge $(u,v)$ is removed. We do this process some finite number of times and now we have a graph $G'(V',E')$  which is constructed from $G(V,E)$. The authors claim that if G' has a multiway cut C' of cost Z, then we can construct a cut C for G which has a cost atmost Z. We can do this by, looking into the edge in C'. $\forall e in C'$ check if $e in E$, then add it to C. If $e \notin E$ find the edge $e' \in E$ which was split to get $e \in E'$ and add $e'$ to C. This set C is the multiway cut for G.
 
+\section{Why subdivision}
+Like we described earlier, for the algorithm to work, the nodes in the graph should have the property( the property where they differ by atmost 2). But the graphs normally do not have this property. We induce this property into the graph with the help of subdivision method which we discussed previously. We pick an edge, check if the vectors of nodes$(u,v)$ from the edge differ by more than two. If so we introduce a new node $w$. Now the distance between $(u,v)$ is split into two $(u,w)$ and $(w,v)$. These two edges will further be split if they do not follow the property. This process is continued till all the edges in the graph satisfy the property. Worst case it will be $k$ such divisions for each edge and thereby introducing a max of $k\vert E \vert$ nodes in the graph. If we run the algorithm in the system we will can get a solution which is $(1.5 - \frac{1}{k})OPT$. This is what is discussed in Proposition 2 and Lemma 3 in the paper 
 
-
-
-
+\section{Why the algorithm works}
+The edges in the graph can be split into two groups $E_0$ and $E_{ij}$. $E_0$ equals set of edges where $x^u = x^v$(u,v are the nodes connected by the edge). The other edges fall under $E_{ij}$ where $(x_i^u \neq x_i^v \and x_j^u \neq x_j^v)$ which means, there are two terminals $(i,j)$, associated with nodes of the edge. There are 4 values associated with this edge $x_i^u, x_j^u, x_i^v, x_j^v$. Lets find the max of the 4 and keep that as $x_i^u$ and rearrange others accordingly. The authors claim that $\forall uv \in E_{ij}$, either $x_i^u \ge x_i^v \ge x_j^v \ge x_j^u$ or $x_i^u \ge x_j^u \ge x_i^v \ge x_j^u$. This is because we know $\sum\limits_{i=1}^{k}{x_i^u} = 1 = \sum\limits_{i=1}^{k}{x_i^v}$ and since they differ by at max two, we can write $x_i^u + x_j^u = x_i^v + x_j^v$. Since $x_i^u$ is the max value, the min value will be $x_j^u$ and the other two will lie in the the middle and thus the inequality. \\
+Lets analyse the probability of an edge in the CUT from our algorithm.
+\begin{itemize}
+    \item Edges $uv \in E \backslash \bigcup\limits_{t:t<k}{E_{tk}}$. The edges which have $x_u = x_v$ will always be together no matter the value of $\sigma, \rho$(Assigned to the same terminal). So $\Pr(uv \in C) = 0,\quad \forall uv \text{ if} (x_u = x_v)$. Now for the edges in $E_{ij}$, $forall l \in {1,2,3\cdots,k} \ {i,j} x_l^u = x_l^v$ and hence they will either be assigned to the same terminal or they wont be assigned to any of the terminal in $l$. So a cut is possible only when either of $(u,v)$ is assigned to $(i,j)$. This depends on the value of $\rho$. When $i \prec j$, from the inequality explained in the previous paragraph, we can say that if $\rho$ is close to $1-x_j^u$, then both the nodes $u,v$ will be assigned to $i$ since the circle is big enough to contain both, so $\Pr(C_{uv}) = 0$. If the value is in range $(1-x_i^u, 1-x_i^v]$, then the circle is small and hence only $u$ will be assigned to $i$. When $j \prec i$, we dont have any restriction on the value of $\rho$. It can taken any value in range $(1-x_i^u, 1-x_j^u]$ and still only $v$ will be assigned to $j$. The value of $\rho$ should be more than $1-x_j^u$ for it to include $u$. Let $I_L = (1 - x_i^u, 1 - x_i^v]$ and $I_R = (1-x_j^v, 1-x_j^u]$. 
+        \begin{align}
+            \Pr[uv \in C] &\le \Pr[(j \prec i) \and (\rho \in I_L \cup I_R) ] + \Pr[(i \prec j) \and (\rho \in I_L)]\\
+            &\le \Pr[(j \prec i) \and (\rho \in I_L)] + \Pr[(j \prec i) \and (\rho \in I_R)] + \Pr[(i \prec j) \and (\rho \in I_L)]\\
+            &\le \frac{1}{2}d(u,v) + \frac{1}{2}d(u,v) + \frac{1}{2}d(u,v) \quad\text{$\frac{1}{2}$ is the probability of $i \prec j$ and viceversa}\\
+            &\le 1.5 d(u,v)
+        \end{align}
+    \item Edges $uv \in \bigcup\limits_{t:t<k}{E_{tk}}$. Same explanation as about but here $i$ will always preced $k$ and hence one of them nodes must be assigned with $i$ is processed.
+        \begin{align}
+            \Pr[uv \in C] &\le \Pr[\rho \in I_L]\\
+            &\le d(u,v)
+        \end{align}
+\end{itemize}
+\section{Proof}
+\begin{itemize}
+    \item Let $Z_i$ be the weight of the edges present in $C_i$ which is the set of edges leaving the connected component $i$. 
+        \begin{align}
+            Z_i = \sum\limits_{uv \in \bigcup\limits_{t:t \ne i}{E_{ti}}}{c(u,v)d(u,v)}
+        \end{align}
+    \item Find the $Z_i$ which is greatest. Let it be $Z_k$. There we can write the above equation as 
+        \begin{align}
+            \sum\limits_{uv \in \bigcup\limits_{t:t \ne i}{E_{ti}}}{c(u,v)d(u,v)} \le k * Z_k
+        \end{align}
+    \item From the LP's we know that
+        \begin{align}
+            \sum\limits_{i = 1}^{k}{Z_i} = 2 * OPT
+        \end{align}
+    \item From the above two equations we can say that, $Z_k \le \frac{2}{k} OPT$ 
+    \item From the analyis we can calculate the expected value of the cost of the edges as,
+        \begin{align*}
+            Expected[c(C)] &= \sum\limits_{uv \in E}{c(u,v) \Pr(uv \in C)}\\
+            &\le \sum\limits_{uv \in E \backslash \bigcup\limits_{t:t<k}{E_{tk}}}{c(u,v) \Pr(uv \in C)} + \sum\limits_{uv \in \bigcup\limits_{t:t<k}{E_{tk}}}{c(u,v) \Pr(uv \in C)} \\
+            &\le 1.5 (OPT) + 0.5(Z_K)\\
+            &\le (1.5 + 0.5\frac{2}{k})OPT\\
+            &\le (1.5 + \frac{1}{k})OPT
+        \end{align*}
+\end{itemize}
 
 
 { %\footnotesize
